@@ -9,8 +9,7 @@ const addressItems = [
   {
     id: 2,
     svg: <i className="fa-solid fa-location-pin"></i>,
-    title:
-      "43 Shilpacharya Zainul Abedin Sarak (Old 16 Shantinagar), Dhaka - 1217",
+    title: "43 Dhaka - 1217",
   },
   {
     id: 3,
@@ -77,10 +76,10 @@ const helpItems = [
 export default function FooterItems() {
   return (
     <div className="py-10 px-6  bg-[#F0F1F3]">
-      <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 ">
+      <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 ">
         <div className="">
           {addressItems.map((item) => (
-            <div className="flex my-1 mx-auto">
+            <div key={item.id} className="flex my-1 mx-auto">
               <h3 className="text-green-900 mr-4 ">{item.svg}</h3>
               <h3 className="text-blue-900 text-sm">{item.title}</h3>
             </div>
@@ -88,7 +87,7 @@ export default function FooterItems() {
         </div>
         <div className="mx-auto">
           {pageItems.map((item) => (
-            <div className="mx-auto">
+            <div key={item.id} className="mx-auto">
               <Link
                 to={item.path}
                 className="text-teal-900 text-sm hover:text-blue-600"
@@ -100,7 +99,7 @@ export default function FooterItems() {
         </div>
         <div className="mx-auto">
           {helpItems.map((item) => (
-            <div className="mx-auto">
+            <div key={item.id} className="mx-auto">
               <Link
                 className="text-teal-900 text-sm hover:text-blue-600"
                 to={item.path}

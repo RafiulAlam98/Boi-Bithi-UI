@@ -57,7 +57,9 @@ export default function Header() {
               </ul>
             ))}
           </div>
-          <a className="btn btn-ghost normal-case text-xl">Book Store</a>
+          <Link to="/" className="btn btn-ghost normal-case text-xl">
+            Book Store
+          </Link>
         </div>
         <div className="mx-auto hidden lg:flex">
           {allRoutes.map((route) => (

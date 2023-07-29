@@ -24,10 +24,10 @@ export default function BookLists() {
             <p>{allBook.author}</p>
             <h3>{allBook.publicationDate}</h3>
             <h3>{allBook.genre}</h3>
-            <button>
-              <Link to={`book-details/${allBook._id}`}>View Details</Link>
-            </button>
           </div>
+          <button className="bg-[#059862] w-1/2 cursor-pointer rounded mx-auto mb-2 hover:bg-[#4CAF50] text-white p-1">
+            <Link to={`book-details/${allBook._id}`}>View Details</Link>
+          </button>
         </div>
       ))}
     </div>

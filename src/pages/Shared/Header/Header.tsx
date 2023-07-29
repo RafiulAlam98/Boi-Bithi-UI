@@ -16,6 +16,11 @@ const allRoutes = [
     name: "Sign Up",
     path: "sign-up",
   },
+  {
+    id: 4,
+    name: "Add New Book",
+    path: "add-book",
+  },
 ];
 
 export default function Header() {

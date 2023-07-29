@@ -10,6 +10,14 @@ const userApi = api.injectEndpoints({
       }),
       invalidatesTags: ["users"],
     }),
+    userSignIn: builder.mutation({
+      query: (data) => ({
+        url: `auth/login`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["users"],
+    }),
   }),
 });
-export const { useUserSignUpMutation } = userApi;
+export const { useUserSignUpMutation, useUserSignInMutation } = userApi;

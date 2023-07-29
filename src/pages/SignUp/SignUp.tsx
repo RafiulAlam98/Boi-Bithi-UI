@@ -20,10 +20,11 @@ export default function SignUp() {
       return <Loading />;
     }
     userSignUp(data).then((res: any) => {
+      console.log(res);
       if (res.data.statusCode === 200) {
         reset();
         navigate("/");
-        toast("user sign up successfull");
+        toast(res.data.message);
       }
     });
   };

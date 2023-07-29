@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteSingleBookMutation,
+  useEditBookMutation,
   useGetSingleBookQuery,
 } from "../../../redux/features/bookSlice/bookApi";
 import Loading from "../../../components/Progress/Loading";
@@ -13,6 +15,27 @@ export default function BookDetails() {
   const navigate = useNavigate();
   const { data: singleBook, isLoading } = useGetSingleBookQuery(id);
   const [deleteSingleBook, options] = useDeleteSingleBookMutation();
+  const [editBook] = useEditBookMutation();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: object) => {
+    if (options.isLoading) {
+      return <Loading />;
+    }
+    console.log(data);
+    editBook({ id, data }).then((res: any) => {
+      console.log(res);
+      if (res.data.statusCode === 200) {
+        reset();
+        navigate("/");
+        toast(res.data.message);
+      }
+    });
+  };
 
   const handleDelete = () => {
     if (options.isLoading) {
@@ -52,6 +75,12 @@ export default function BookDetails() {
           >
             Delete
           </button>
+          <button
+            className="bg-[#059862] w-1/2 cursor-pointer rounded mx-auto mb-2 hover:bg-[#c91515] text-white p-1"
+            onClick={() => (window as any).editBook.showModal()}
+          >
+            Edit
+          </button>
           <dialog id="deleteBook" className="modal">
             <form method="dialog" className="modal-box">
               <h3 className="font-bold text-lg text-orange-500">Hello!</h3>
@@ -72,6 +101,31 @@ export default function BookDetails() {
             </form>
           </dialog>
         </div>
+        <dialog id="editBook" className="modal">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            method="dialog"
+            className="modal-box"
+          >
+            <h3 className="font-bold text-lg text-orange-500">Hello!</h3>
+            <p className="py-4 text-[#c91515]">Edit this book...</p>
+            <input
+              placeholder="title"
+              className="mx-auto focus:border-orange-600 outline-none  w-1/2 block my-2 border rounded p-1 border-teal-500"
+              {...register("title", { required: true })}
+            />
+            {errors.title && (
+              <span className=" block mx-auto text-sm text-red-600">
+                title is required
+              </span>
+            )}
+
+            <input
+              className="bg-[#059862] w-1/3 block mx-auto cursor-pointer rounded hover:bg-[#4CAF50] text-white p-1 mt-1"
+              type="Submit"
+            />
+          </form>
+        </dialog>
       </div>
     </div>
   );

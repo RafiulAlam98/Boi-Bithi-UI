@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { api } from "../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
@@ -13,6 +14,14 @@ const bookApi = api.injectEndpoints({
       query: (id) => ({
         url: `books/${id}`,
         method: "DELETE",
+      }),
+      invalidatesTags: ["books"],
+    }),
+    editBook: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `books/${id}`,
+        method: "PATCH",
+        body: data,
       }),
       invalidatesTags: ["books"],
     }),
@@ -34,6 +43,7 @@ export const {
   useGetAllBooksQuery,
   useGetSingleBookQuery,
   useDeleteSingleBookMutation,
+  useEditBookMutation,
   useGetSingleBookReviewQuery,
   useAddNewBookMutation,
 } = bookApi;

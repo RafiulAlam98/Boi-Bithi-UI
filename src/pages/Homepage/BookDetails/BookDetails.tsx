@@ -16,6 +16,7 @@ export default function BookDetails() {
   const { data: singleBook, isLoading } = useGetSingleBookQuery(id);
   const [deleteSingleBook, options] = useDeleteSingleBookMutation();
   const [editBook] = useEditBookMutation();
+
   const {
     register,
     handleSubmit,
@@ -53,7 +54,7 @@ export default function BookDetails() {
     return <Loading />;
   }
 
-  const { title, author, publicationDate, genre } = singleBook.data;
+  const { title, author, publicationDate, genre, review } = singleBook.data;
 
   return (
     <div>
@@ -67,20 +68,23 @@ export default function BookDetails() {
             <p>{author}</p>
             <h3>{publicationDate}</h3>
             <h3>{genre}</h3>
+            <h3>{review}</h3>
           </div>
 
-          <button
-            className="bg-[#059862] w-1/2 cursor-pointer rounded mx-auto mb-2 hover:bg-[#c91515] text-white p-1"
-            onClick={() => (window as any).deleteBook.showModal()}
-          >
-            Delete
-          </button>
-          <button
-            className="bg-[#059862] w-1/2 cursor-pointer rounded mx-auto mb-2 hover:bg-[#c91515] text-white p-1"
-            onClick={() => (window as any).editBook.showModal()}
-          >
-            Edit
-          </button>
+          <div className="flex justify-center items-center">
+            <button
+              className=" hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
+              onClick={() => (window as any).deleteBook.showModal()}
+            >
+              <i title="delete" className="fa-solid fa-trash p-2"></i>
+            </button>
+            <button
+              className=" hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
+              onClick={() => (window as any).editBook.showModal()}
+            >
+              <i title="edit" className="fa-regular fa-pen-to-square p-2"></i>
+            </button>
+          </div>
           <dialog id="deleteBook" className="modal">
             <form method="dialog" className="modal-box">
               <h3 className="font-bold text-lg text-orange-500">Hello!</h3>

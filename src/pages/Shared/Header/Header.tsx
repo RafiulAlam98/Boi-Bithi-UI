@@ -84,7 +84,7 @@ export default function Header() {
           className=" mb-2  hover:text-white  text-red-700 border-none  cursor-pointer"
         >
           <i
-            className="fa-solid fa-book-open-reader text-2xl border-none rounded p-4 badge
+            className="fa-solid fa-heart text-2xl border-none rounded p-4 badge
              text-red-600 bg-none"
           >
             <span className="text-sm text-teal-800 font-bold">

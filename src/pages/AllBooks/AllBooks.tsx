@@ -1,3 +1,3 @@
 export default function AllBooks() {
-  return <div>AllBooks</div>;
+  return <div>AllBooks Coming Soon.....</div>;
 }

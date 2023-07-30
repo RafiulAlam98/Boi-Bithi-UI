@@ -5,4 +5,5 @@ export type IBooks = {
   genre: string;
   publicationDate: string;
   quantity?: number;
+  completed?: boolean;
 };

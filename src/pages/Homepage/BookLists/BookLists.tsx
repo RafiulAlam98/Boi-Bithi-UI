@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Loading from "../../../components/Progress/Loading";
 import { useAppDispatch } from "../../../redux/hooks/hooks";
 import { addToWishList } from "../../../redux/features/wishList/wishListSlice";
+import { addToReadingList } from "../../../redux/features/readingSlice/readingSlice";
 
 export default function BookLists() {
   const { data, isLoading } = useGetAllBooksQuery(undefined);
@@ -30,8 +31,10 @@ export default function BookLists() {
             <h3>{allBook.genre}</h3>
           </div>
           <div className="flex justify-center items-center">
-            <button className="bg-[#059862] w-1/2 cursor-pointer rounded mx-auto mb-2 hover:bg-[#4CAF50] text-white p-1">
-              <Link to={`book-details/${allBook._id}`}>View Details</Link>
+            <button className=" hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto ">
+              <Link to={`book-details/${allBook._id}`}>
+                <i title="view details" className="fa-solid fa-expand p-2"></i>
+              </Link>
             </button>
             <button
               onClick={() => dispatch(addToWishList(allBook))}
@@ -39,6 +42,13 @@ export default function BookLists() {
               className=" hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
             >
               <i className="fa-solid fa-heart p-2"></i>
+            </button>
+            <button
+              onClick={() => dispatch(addToReadingList(allBook))}
+              title="currently reading"
+              className=" hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
+            >
+              <i className="fa-solid fa-book-open-reader p-2"></i>
             </button>
           </div>
         </div>

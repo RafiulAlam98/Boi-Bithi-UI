@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import WishLists from "../../../components/WishLists/WishLists";
 import { useAppSelector } from "../../../redux/hooks/hooks";
+import Reading from "../../../components/Reading/Reading";
 
 const allRoutes = [
   {
@@ -28,6 +29,7 @@ const allRoutes = [
 
 export default function Header() {
   const { books } = useAppSelector((state) => state.wishList);
+  const { readingBooks } = useAppSelector((state) => state.readingList);
   return (
     <div className="max-w-[1100px] mx-auto ">
       <div className="navbar bg-base-100">
@@ -74,14 +76,16 @@ export default function Header() {
             </ul>
           ))}
         </div>
+
+        {/*------------ Wish List ---------*/}
         <button
           onClick={() => (window as any).wishlistModal.showModal()}
           title="wishlist"
           className=" mb-2  hover:text-white  text-red-700 border-none  cursor-pointer"
         >
           <i
-            className="fa-solid text-2xl border-none fa-heart rounded p-4 badge
-            text-red-600 bg-none"
+            className="fa-solid fa-book-open-reader text-2xl border-none rounded p-4 badge
+             text-red-600 bg-none"
           >
             <span className="text-sm text-teal-800 font-bold">
               {books.length}
@@ -89,6 +93,26 @@ export default function Header() {
           </i>
         </button>
         <WishLists />
+        {/* --------- */}
+
+        {/*----------- Reading List  ------------*/}
+        <button
+          onClick={() => (window as any).readingList.showModal()}
+          title="currently reading"
+          className=" mb-2  hover:text-white  text-red-700 border-none  cursor-pointer"
+        >
+          <i
+            className="fa-solid fa-book-open-reader text-2xl border-none rounded p-4 badge
+            text-red-600 bg-none"
+          >
+            {" "}
+            <span className="text-sm text-teal-800 font-bold">
+              {readingBooks.length}
+            </span>
+          </i>
+        </button>
+        <Reading />
+        {/* --------- */}
       </div>
     </div>
   );

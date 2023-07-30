@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IBooks } from "./../../../types/wishListTypes";
+import { IBooks } from "../../../types/globaltypes";
 type IWishList = {
   books: IBooks[];
 };

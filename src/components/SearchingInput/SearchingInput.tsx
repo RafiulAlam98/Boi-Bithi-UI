@@ -3,8 +3,6 @@
 export default function SearchingInput({ setSearchTerm }: any) {
   return (
     <div className="mb-6">
-      <h1 className="my-2"> Searching Option Coming Soon...</h1>
-
       <input
         required
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -12,7 +10,9 @@ export default function SearchingInput({ setSearchTerm }: any) {
         type="text"
         className="input rounded-sm input-accent w-1/2 input-sm"
       />
-      <button>Search</button>
+      <button className="mx-auto bg-green-600 p-1 text-white rounded">
+        Search
+      </button>
     </div>
   );
 }

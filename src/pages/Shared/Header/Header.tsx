@@ -10,18 +10,9 @@ const allRoutes = [
     name: "All Books",
     path: "all-books",
   },
+
   {
     id: 2,
-    name: "Sign In",
-    path: "sign-in",
-  },
-  {
-    id: 3,
-    name: "Sign Up",
-    path: "sign-up",
-  },
-  {
-    id: 4,
     name: "Add New Book",
     path: "add-book",
   },
@@ -30,6 +21,11 @@ const allRoutes = [
 export default function Header() {
   const { books } = useAppSelector((state) => state.wishList);
   const { readingBooks } = useAppSelector((state) => state.readingList);
+  const user = localStorage.getItem("access-token");
+  console.log(user);
+  const handleSignOut = () => {
+    return localStorage.removeItem("access-token");
+  };
   return (
     <div className="max-w-[1100px] mx-auto ">
       <div className="navbar bg-base-100">
@@ -75,6 +71,24 @@ export default function Header() {
               </li>
             </ul>
           ))}
+          {user === null ? (
+            <>
+              {" "}
+              <li className="list-none">
+                <Link to="sign-up">Sign Up</Link>
+              </li>
+              <li className="list-none ml-5">
+                <Link to="sign-in">Sign In</Link>
+              </li>
+            </>
+          ) : (
+            <button
+              onClick={() => handleSignOut()}
+              className="bg-none text-red-600"
+            >
+              Sign Out
+            </button>
+          )}
         </div>
 
         {/*------------ Wish List ---------*/}

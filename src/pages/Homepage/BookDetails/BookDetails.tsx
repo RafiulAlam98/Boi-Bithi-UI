@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import contact from "../../../assets/review.avif";
 import {
   useDeleteSingleBookMutation,
   useEditBookMutation,
@@ -27,7 +28,6 @@ export default function BookDetails() {
     if (options.isLoading) {
       return <Loading />;
     }
-    console.log(data);
     editBook({ id, data }).then((res: any) => {
       console.log(res);
       if (res.data.statusCode === 200) {
@@ -54,35 +54,51 @@ export default function BookDetails() {
     return <Loading />;
   }
 
-  const { title, author, publicationDate, genre, review } = singleBook.data;
+  const { title, author, publicationDate, genre, review, img, price } =
+    singleBook.data;
 
   return (
-    <div>
-      <h1 className="text-2xl text-center my-7 text-orange-600 ">
-        Book Details For {title}
-      </h1>
-      <div className="grid gap-4 grid-cols-1">
-        <div className="card w-1/2  mx-auto">
-          <div className="card-body ">
-            <h2 className="card-title">{title}</h2>
-            <p>{author}</p>
-            <h3>{publicationDate}</h3>
-            <h3>{genre}</h3>
-            <h3>{review}</h3>
+    <section className="max-w-[1200px] mx-auto">
+      <div className=" grid grid-cols-2">
+        <div>
+          <figure className="mx-auto">
+            <img src={img} alt="" className="w-2/3 max-h-96 mt-6"></img>
+          </figure>
+        </div>
+        <div className="card-body">
+          <h2 className="text-[#3749BB] text-2xl font-serif">{title}</h2>
+          <h4 className="text-white-700 font-serif">by {author}</h4>
+          <h4 className="text-white-700 font-serif">
+            Published On {publicationDate}
+          </h4>
+          <h4 className="text-white-700 font-serif">{genre}</h4>
+          <h4 className="badge shadow-md p-3 text-white-700 font-serif">
+            Price: $ {price}
+          </h4>
+
+          <div id="description" className="shadow-xl min-h-max">
+            <h4 className="font-serif text-md hover:cursor-auto font-semibold mt-5 mb-6 ">
+              <span className="bg-[#E5330B] text-white rounded px-4 py-2">
+                Description
+              </span>
+            </h4>
+            <h4 className=" font-serif text-sm mt-2 decoration-black pb-5"></h4>
           </div>
 
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center mt-4">
             <button
-              className=" hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
+              className="px-2 hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
               onClick={() => (window as any).deleteBook.showModal()}
             >
               <i title="delete" className="fa-solid fa-trash p-2"></i>
+              Delete
             </button>
             <button
-              className=" hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
+              className="px-2 hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
               onClick={() => (window as any).editBook.showModal()}
             >
               <i title="edit" className="fa-regular fa-pen-to-square p-2"></i>
+              Edit
             </button>
           </div>
           <dialog id="deleteBook" className="modal">
@@ -104,33 +120,150 @@ export default function BookDetails() {
               </div>
             </form>
           </dialog>
-        </div>
-        <dialog id="editBook" className="modal">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            method="dialog"
-            className="modal-box"
-          >
-            <h3 className="font-bold text-lg text-orange-500">Hello!</h3>
-            <p className="py-4 text-[#c91515]">Edit this book...</p>
-            <input
-              placeholder="title"
-              className="mx-auto focus:border-orange-600 outline-none  w-1/2 block my-2 border rounded p-1 border-teal-500"
-              {...register("title", { required: true })}
-            />
-            {errors.title && (
-              <span className=" block mx-auto text-sm text-red-600">
-                title is required
-              </span>
-            )}
+          <dialog id="editBook" className="modal">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              method="dialog"
+              className="modal-box"
+            >
+              <h3 className="font-bold text-lg text-orange-500">Hello!</h3>
+              <p className="py-4 text-[#c91515]">Edit this book...</p>
+              <input
+                placeholder="title"
+                className="mx-auto focus:border-orange-600 outline-none  w-1/2 block my-2 border rounded p-1 border-teal-500"
+                {...register("title", { required: true })}
+              />
+              {errors.title && (
+                <span className=" block mx-auto text-sm text-red-600">
+                  title is required
+                </span>
+              )}
 
-            <input
-              className="bg-[#059862] w-1/3 block mx-auto cursor-pointer rounded hover:bg-[#4CAF50] text-white p-1 mt-1"
-              type="Submit"
-            />
-          </form>
-        </dialog>
+              <input
+                className="bg-[#059862] w-1/3 block mx-auto cursor-pointer rounded hover:bg-[#4CAF50] text-white p-1 mt-1"
+                type="Submit"
+              />
+            </form>
+          </dialog>
+        </div>
       </div>
-    </div>
+      <hr className="my-10" />
+
+      <div id="" className="  px-4 mx-4 min-h-max mt-10">
+        <h4 className="font-serif text-md hover:cursor-auto font-semibold mt-5 mb-6 ">
+          <span className="bg-[#E5330B] text-white rounded px-4 py-2">
+            Reviews
+          </span>
+        </h4>
+        {review ? (
+          <h4 className=" font-serif text-sm mt-2 decoration-black pb-5">
+            <div className="grid sm:grid-cols-2  lg:grid-cols-4 gap-4">
+              {reviews.map((review) => (
+                <div className="card shadow-xl ">
+                  <div className="px-3 py-6">
+                    <p className="text-xl text-orange-600">{review.text}</p>
+                    <div className="flex items-center justify-between">
+                      {review.img && (
+                        <div className="avatar mr-3">
+                          <div className="w-16 rounded-full">
+                            <img src={review.img} alt="" />
+                          </div>
+                        </div>
+                      )}
+                      <div className="mt-5">
+                        <h3 className="text-lg">{review.name}</h3>
+                        {review?.location && (
+                          <h3 className="text-sm my-3"> {review.location}</h3>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </h4>
+        ) : (
+          <h4 className="shadow-xl p-4 rounded font-serif text-2xl text-orange-600">
+            No Reviews Added For This Product. Please Add Some Review.
+          </h4>
+        )}
+      </div>
+
+      <section className=" mt-8">
+        <h2 className="text-3xl text-orange-600 my-10 text-center font-serif font-semibold ">
+          <span className="border-b-2 border-orange-600 ">
+            Lets Make A Review!
+          </span>
+        </h2>
+
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+          <div className="mx-auto my-auto">
+            <img
+              src={contact}
+              className="max-w-lg rounded-lg  lg:ml:10"
+              alt="review"
+            />
+          </div>
+          <div>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid grid-cols-1 sm:w-2/3 mx-auto gap-4 place-content-center lg:mt-3"
+            >
+              <input
+                required
+                {...register("name")}
+                type="text"
+                name="name"
+                placeholder="Enter Your Full Name"
+                className="rounded  p-3 mx-auto 
+            w-full border bg-gray-200"
+              />
+              <input
+                required
+                {...register("email")}
+                type="email"
+                name="email"
+                placeholder="Enter Your Email"
+                className="rounded  p-3 mx-auto 
+                w-full border bg-gray-200"
+              />
+              <input
+                required
+                {...register("location")}
+                type="text"
+                name="location"
+                placeholder="Enter Your location"
+                className="rounded  p-3 mx-auto 
+                w-full border bg-gray-200"
+              />
+              <input
+                {...register("image", { required: "image is required" })}
+                type="file"
+                className="rounded  p-3 mx-auto 
+                w-full border bg-gray-200"
+              />
+
+              {/* <textarea
+                rows="6"
+                cols="100"
+                required
+                {...register("text")}
+                type="text"
+                name="text"
+                placeholder="Enter Your Message"
+                className="rounded  p-3 mx-auto 
+                w-full border bg-gray-200"
+              /> */}
+
+              <input
+                type="submit"
+                placeholder="Contact"
+                className="rounded font-semibold text-white w-full mx-auto px-1 bg-orange-500 p-1  hover:bg-orange-600  m-3 cursor-pointer"
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+    </section>
   );
 }

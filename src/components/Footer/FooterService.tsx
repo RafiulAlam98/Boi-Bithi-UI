@@ -32,8 +32,8 @@ const services = [
 ];
 export default function FooterService() {
   return (
-    <div className="max-w-[1100px] mx-auto mt-5 px-6 py-6">
-      <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+    <div className="max-w-[1200px] mx-auto mt-5 ">
+      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 ">
         {services.map((service) => (
           <div
             key={service.id}

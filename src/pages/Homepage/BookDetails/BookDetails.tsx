@@ -1,26 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import './BookDetails.css';
+import "./BookDetails.css";
 
 import {
   useDeleteSingleBookMutation,
-  useEditBookMutation,
   useGetSingleBookQuery,
 } from "../../../redux/features/bookSlice/bookApi";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import BackButton from '../../../components/BackButton/BackButton';
 import Loading from "../../../components/Progress/Loading";
-import contact from '../../../assets/review.avif';
+import contact from "../../../assets/review.avif";
 import { toast } from "react-hot-toast";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 export default function BookDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: singleBook, isLoading } = useGetSingleBookQuery(id);
   const [deleteSingleBook, options] = useDeleteSingleBookMutation();
-  const [editBook] = useEditBookMutation();
 
   const {
     register,
@@ -29,17 +27,8 @@ export default function BookDetails() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data: object) => {
-    if (options.isLoading) {
-      return <Loading />;
-    }
-    editBook({ id, data }).then((res: any) => {
-      console.log(res);
-      if (res.data.statusCode === 200) {
-        reset();
-        navigate("/");
-        toast(res.data.message);
-      }
-    });
+    console.log(data);
+    reset();
   };
 
   const handleDelete = () => {
@@ -58,12 +47,19 @@ export default function BookDetails() {
     return <Loading />;
   }
 
-  const { title, author, publicationDate, genre, review, img, price } =
-    singleBook.data;
+  const {
+    title,
+    author,
+    publicationDate,
+    genre,
+    review,
+    img,
+    price,
+    description,
+  } = singleBook.data;
 
   return (
     <section className="max-w-[1200px] mx-auto">
-      <BackButton />
       <div className=" grid grid-cols-2">
         <div>
           <figure className="mx-auto">
@@ -87,7 +83,9 @@ export default function BookDetails() {
                 Description
               </span>
             </h4>
-            <h4 className=" font-serif text-sm mt-2 decoration-black pb-5"></h4>
+            <p className=" font-serif text-sm mt-2 decoration-black pb-5 px-4">
+              {description}
+            </p>
           </div>
 
           <div className="flex justify-center items-center mt-4">
@@ -98,13 +96,14 @@ export default function BookDetails() {
               <i title="delete" className="fa-solid fa-trash p-2"></i>
               Delete
             </button>
-            <button
+            <Link
+              to={`/edit/${id}`}
               className="px-2 hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded mx-auto "
               onClick={() => (window as any).editBook.showModal()}
             >
               <i title="edit" className="fa-regular fa-pen-to-square p-2"></i>
               Edit
-            </button>
+            </Link>
           </div>
           <dialog id="deleteBook" className="modal">
             <form method="dialog" className="modal-box">
@@ -123,31 +122,6 @@ export default function BookDetails() {
                   No
                 </button>
               </div>
-            </form>
-          </dialog>
-          <dialog id="editBook" className="modal">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              method="dialog"
-              className="modal-box"
-            >
-              <h3 className="font-bold text-lg text-orange-500">Hello!</h3>
-              <p className="py-4 text-[#c91515]">Edit this book...</p>
-              <input
-                placeholder="title"
-                className="mx-auto focus:border-orange-600 outline-none  w-1/2 block my-2 border rounded p-1 border-teal-500"
-                {...register('title', { required: true })}
-              />
-              {errors.title && (
-                <span className=" block mx-auto text-sm text-red-600">
-                  title is required
-                </span>
-              )}
-
-              <input
-                className="bg-[#059862] w-1/3 block mx-auto cursor-pointer rounded hover:bg-[#4CAF50] text-white p-1 mt-1"
-                type="Submit"
-              />
             </form>
           </dialog>
         </div>
@@ -216,7 +190,7 @@ export default function BookDetails() {
             >
               <input
                 required
-                {...register('name')}
+                {...register("name")}
                 type="text"
                 name="name"
                 placeholder="Enter Your Full Name"
@@ -225,7 +199,7 @@ export default function BookDetails() {
               />
               <input
                 required
-                {...register('email')}
+                {...register("email")}
                 type="email"
                 name="email"
                 placeholder="Enter Your Email"
@@ -234,31 +208,13 @@ export default function BookDetails() {
               />
               <input
                 required
-                {...register('location')}
+                {...register("review")}
                 type="text"
-                name="location"
-                placeholder="Enter Your location"
-                className="rounded  p-3 mx-auto 
+                name="review"
+                placeholder="Enter Your review"
+                className="rounded  p-5 mx-auto 
                 w-full border bg-gray-200"
               />
-              <input
-                {...register('image', { required: 'image is required' })}
-                type="file"
-                className="rounded  p-3 mx-auto 
-                w-full border bg-gray-200"
-              />
-
-              {/* <textarea
-                rows="6"
-                cols="100"
-                required
-                {...register("text")}
-                type="text"
-                name="text"
-                placeholder="Enter Your Message"
-                className="rounded  p-3 mx-auto 
-                w-full border bg-gray-200"
-              /> */}
 
               <input
                 type="submit"

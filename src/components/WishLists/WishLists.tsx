@@ -2,7 +2,6 @@ import { useAppSelector } from "../../redux/hooks/hooks";
 
 export default function WishLists() {
   const { books } = useAppSelector((state) => state.wishList);
-  console.log(books);
   return (
     <div>
       <dialog id="wishlistModal" className="modal">

@@ -13,8 +13,12 @@ import Loading from "../../../components/Progress/Loading";
 import contact from "../../../assets/review.avif";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { useAppSelector } from "../../../redux/hooks/hooks";
+import { useAddReviewMutation } from "../../../redux/features/reviewSlice/reviewApi";
 
 export default function BookDetails() {
+  const [addReview] = useAddReviewMutation();
+  const { user } = useAppSelector((state) => state.user);
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: singleBook, isLoading } = useGetSingleBookQuery(id);
@@ -23,7 +27,14 @@ export default function BookDetails() {
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data: object) => {
     console.log(data);
-    reset();
+    addReview({ id, data }).then((res: any) => {
+      if (res.data.statusCode === 200) {
+        reset();
+        toast(res.data.message);
+      } else {
+        toast.error(res.error.data.message);
+      }
+    });
   };
 
   const handleDelete = () => {
@@ -47,7 +58,7 @@ export default function BookDetails() {
     author,
     publicationDate,
     genre,
-    review,
+    reviews,
     img,
     price,
     description,
@@ -129,26 +140,19 @@ export default function BookDetails() {
             Reviews
           </span>
         </h4>
-        {review ? (
+        {reviews.length > 0 ? (
           <h4 className=" font-serif text-sm mt-2 decoration-black pb-5">
             <div className="grid sm:grid-cols-2  lg:grid-cols-4 gap-4">
-              {review.map((rvw: any) => (
+              {reviews.map((rvw: any) => (
                 <div className="card shadow-xl ">
                   <div className="px-3 py-6">
-                    <p className="text-xl text-orange-600">{rvw.text}</p>
+                    <p className="text-xl text-orange-600">{rvw.review}</p>
                     <div className="flex items-center justify-between">
-                      {rvw.img && (
-                        <div className="avatar mr-3">
-                          <div className="w-16 rounded-full">
-                            <img src={rvw.img} alt="" />
-                          </div>
-                        </div>
-                      )}
                       <div className="mt-5">
-                        <h3 className="text-lg">{rvw.name}</h3>
-                        {rvw?.location && (
-                          <h3 className="text-sm my-3"> {rvw.location}</h3>
-                        )}
+                        <h3 className="text-lg">by {rvw.name}</h3>
+                      </div>
+                      <div className="mt-5">
+                        <h3 className="text-lg"> Rating {rvw.rating}</h3>
                       </div>
                     </div>
                   </div>
@@ -193,11 +197,20 @@ export default function BookDetails() {
             w-full border bg-gray-200"
               />
               <input
-                required
                 {...register("email")}
+                defaultValue={user.email!}
                 type="email"
                 name="email"
                 placeholder="Enter Your Email"
+                className="rounded  p-3 mx-auto 
+                w-full border bg-gray-200"
+              />
+
+              <input
+                {...register("rating")}
+                type="number"
+                name="rating"
+                placeholder="Enter Your rating"
                 className="rounded  p-3 mx-auto 
                 w-full border bg-gray-200"
               />

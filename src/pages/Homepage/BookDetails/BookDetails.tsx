@@ -20,12 +20,7 @@ export default function BookDetails() {
   const { data: singleBook, isLoading } = useGetSingleBookQuery(id);
   const [deleteSingleBook, options] = useDeleteSingleBookMutation();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data: object) => {
     console.log(data);
     reset();
@@ -206,10 +201,12 @@ export default function BookDetails() {
                 className="rounded  p-3 mx-auto 
                 w-full border bg-gray-200"
               />
-              <input
+
+              <textarea
+                rows={4}
+                cols={50}
                 required
                 {...register("review")}
-                type="text"
                 name="review"
                 placeholder="Enter Your review"
                 className="rounded  p-5 mx-auto 

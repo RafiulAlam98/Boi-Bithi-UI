@@ -55,7 +55,7 @@ export default function AllBooks() {
             </div>
             <div className="flex justify-center items-center mb-0">
               <button className="mx-1 hover:bg-orange-600 mb-2 hover:text-white  text-red-700 border border-red-400 cursor-pointer rounded  ">
-                <Link to={`book-details/${allBook._id}`}>
+                <Link to={`/book-details/${allBook._id}`}>
                   <i
                     title="view details"
                     className="fa-solid fa-expand p-2"

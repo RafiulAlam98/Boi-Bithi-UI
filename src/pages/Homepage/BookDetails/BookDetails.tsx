@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import contact from "../../../assets/review.avif";
 import {
   useDeleteSingleBookMutation,
@@ -10,6 +10,7 @@ import {
 import Loading from "../../../components/Progress/Loading";
 import "./BookDetails.css";
 import { toast } from "react-hot-toast";
+import BackButton from "../../../components/BackButton/BackButton";
 
 export default function BookDetails() {
   const { id } = useParams();
@@ -59,6 +60,7 @@ export default function BookDetails() {
 
   return (
     <section className="max-w-[1200px] mx-auto">
+      <BackButton />
       <div className=" grid grid-cols-2">
         <div>
           <figure className="mx-auto">

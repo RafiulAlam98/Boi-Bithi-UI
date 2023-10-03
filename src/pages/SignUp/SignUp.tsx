@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import "./SignUp.css";
+import contact from "../../assets/signup-in.png";
 import { useUserSignUpMutation } from "../../redux/features/userSlice/userApi";
 import Loading from "../../components/Progress/Loading";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import BackButton from "../../components/BackButton/BackButton";
 
 export default function SignUp() {
   const [userSignUp, options] = useUserSignUpMutation();
@@ -30,15 +33,27 @@ export default function SignUp() {
   };
 
   return (
-    <div className="form-container ">
+    <div className="grid bg-slate-100 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 min-h-screen">
+      <div className="mx-auto my-auto">
+        <BackButton />
+        <img
+          src={contact}
+          className="max-w-lg rounded-lg  lg:ml:10"
+          alt="review"
+        />
+      </div>
       <div className="">
         <h1 className="text-4xl text-center my-7 text-orange-600 ">Sign Up</h1>
 
-        <div className="text-center">
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="text-center mb-16 ">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="place-content-center"
+          >
             <input
               placeholder="email"
-              className="mx-auto focus:border-orange-600 outline-none w-1/2 block my-2 border rounded p-1 border-teal-500"
+              className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
+              w-2/3 border bg-gray-200"
               {...register("email", { required: true })}
             />
             {errors.email && (
@@ -49,7 +64,8 @@ export default function SignUp() {
 
             <input
               placeholder="password"
-              className="mx-auto focus:border-orange-600 outline-none  w-1/2 block my-2 border rounded p-1 border-teal-500"
+              className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
+              w-2/3 border bg-gray-200"
               {...register("password", { required: true })}
             />
             {errors.password && (
@@ -60,7 +76,8 @@ export default function SignUp() {
 
             <input
               placeholder="phone no"
-              className="mx-auto focus:border-orange-600 outline-none  w-1/2 block my-2 border rounded p-1 border-teal-500"
+              className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
+              w-2/3 border bg-gray-200"
               {...register("phoneNo", { required: true })}
             />
             {errors.phone && <span>Phone No is required</span>}

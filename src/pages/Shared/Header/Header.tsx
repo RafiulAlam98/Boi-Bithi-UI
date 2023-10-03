@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Link } from "react-router-dom";
+import Reading from '../../../components/Reading/Reading';
 import WishLists from "../../../components/WishLists/WishLists";
-import { useAppSelector } from "../../../redux/hooks/hooks";
-import Reading from "../../../components/Reading/Reading";
+import { useAppSelector } from '../../../redux/hooks/hooks';
 
 const allRoutes = [
   {
@@ -47,24 +48,25 @@ export default function Header() {
                 />
               </svg>
             </label>
-            {allRoutes.map((route) => (
-              <ul
-                key={route.id}
-                tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li>
-                  <Link to={route.path}>{route.name}</Link>
-                </li>
-              </ul>
-            ))}
+
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <Link to="all-books">All Books</Link>
+              </li>
+              <li>
+                <Link to="add-book">Add New Book</Link>
+              </li>
+            </ul>
           </div>
           <Link to="/" className="btn btn-ghost normal-case text-xl">
             Book Store
           </Link>
         </div>
         <div className="mx-auto hidden lg:flex">
-          {allRoutes.map((route) => (
+          {allRoutes.map(route => (
             <ul key={route.id} className="menu menu-horizontal px-1">
               <li>
                 <Link to={route.path}>{route.name}</Link>
@@ -73,7 +75,7 @@ export default function Header() {
           ))}
           {user === null ? (
             <>
-              {" "}
+              {' '}
               <li className="list-none">
                 <Link to="sign-up">Sign Up</Link>
               </li>
@@ -119,7 +121,7 @@ export default function Header() {
             className="fa-solid fa-book-open-reader text-2xl border-none rounded p-4 badge
             text-red-600 bg-none"
           >
-            {" "}
+            {' '}
             <span className="text-sm text-teal-800 font-bold">
               {readingBooks.length}
             </span>

@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useForm } from "react-hook-form";
-import "./SignUp.css";
-import contact from "../../assets/signup-in.png";
-import { useUserSignUpMutation } from "../../redux/features/userSlice/userApi";
-import Loading from "../../components/Progress/Loading";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
-import BackButton from "../../components/BackButton/BackButton";
+
+import './SignUp.css';
+
+import { Link, useNavigate } from 'react-router-dom';
+
+import BackButton from '../../components/BackButton/BackButton';
+import Loading from '../../components/Progress/Loading';
+import contact from '../../assets/signup-in.png';
+import { toast } from 'react-hot-toast';
+import { useForm } from 'react-hook-form';
+import { useUserSignUpMutation } from '../../redux/features/userSlice/userApi';
 
 export default function SignUp() {
   const [userSignUp, options] = useUserSignUpMutation();
@@ -19,17 +22,7 @@ export default function SignUp() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data: object) => {
-    if (options.isLoading) {
-      return <Loading />;
-    }
-    userSignUp(data).then((res: any) => {
-      console.log(res);
-      if (res.data.statusCode === 200) {
-        reset();
-        navigate("/");
-        toast(res.data.message);
-      }
-    });
+    console.log(data);
   };
 
   return (
@@ -42,8 +35,8 @@ export default function SignUp() {
           alt="review"
         />
       </div>
-      <div className="">
-        <h1 className="text-4xl text-center my-7 text-orange-600 ">Sign Up</h1>
+      <div className="lg:mt-36">
+        <h1 className="text-4xl text-center my-7 text-orange-600 ">Sign UP</h1>
 
         <div className="text-center mb-16 ">
           <form
@@ -54,7 +47,7 @@ export default function SignUp() {
               placeholder="email"
               className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
               w-2/3 border bg-gray-200"
-              {...register("email", { required: true })}
+              {...register('email', { required: true })}
             />
             {errors.email && (
               <span className="mx-2 text-sm text-center text-red-600">
@@ -66,7 +59,7 @@ export default function SignUp() {
               placeholder="password"
               className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
               w-2/3 border bg-gray-200"
-              {...register("password", { required: true })}
+              {...register('password', { required: true })}
             />
             {errors.password && (
               <span className="mx-2 text-sm text-red-600">
@@ -78,7 +71,7 @@ export default function SignUp() {
               placeholder="phone no"
               className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
               w-2/3 border bg-gray-200"
-              {...register("phoneNo", { required: true })}
+              {...register('phoneNo', { required: true })}
             />
             {errors.phone && <span>Phone No is required</span>}
 

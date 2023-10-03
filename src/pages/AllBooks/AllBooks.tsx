@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
-import Loading from "../../components/Progress/Loading";
-import { useGetBookBySearchQuery } from "../../redux/features/bookSlice/bookApi";
-import { useAppDispatch } from "../../redux/hooks/hooks";
-import SearchingInput from "../../components/SearchingInput/SearchingInput";
-import { Link } from "react-router-dom";
-import { addToWishList } from "../../redux/features/wishList/wishListSlice";
-import { addToReadingList } from "../../redux/features/readingSlice/readingSlice";
+
+import BackButton from '../../components/BackButton/BackButton';
+import { Link } from 'react-router-dom';
+import Loading from '../../components/Progress/Loading';
+import { addToReadingList } from '../../redux/features/readingSlice/readingSlice';
+import { addToWishList } from '../../redux/features/wishList/wishListSlice';
+import { useAppDispatch } from '../../redux/hooks/hooks';
+import { useGetBookBySearchQuery } from '../../redux/features/bookSlice/bookApi';
+import { useState } from 'react';
 
 export default function AllBooks() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState('');
   const { data, isLoading } = useGetBookBySearchQuery(searchTerm);
 
   const dispatch = useAppDispatch();
@@ -20,9 +21,9 @@ export default function AllBooks() {
   const allBooks = data.data;
   console.log(allBooks);
   return (
-    <div>
-      {/* <SearchingInput setSearchTerm={setSearchTerm} /> */}
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="max-w-[1200px] mx-auto">
+      <BackButton />
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-8">
         {allBooks.map((allBook: any) => (
           <div
             key={allBook._id}
@@ -79,6 +80,7 @@ export default function AllBooks() {
             </div>
           </div>
         ))}
+        Ba
       </div>
     </div>
   );

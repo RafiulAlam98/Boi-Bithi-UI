@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useForm } from "react-hook-form";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import contact from "../../../assets/review.avif";
+
+import './BookDetails.css';
+
 import {
   useDeleteSingleBookMutation,
   useEditBookMutation,
   useGetSingleBookQuery,
 } from "../../../redux/features/bookSlice/bookApi";
+import { useNavigate, useParams } from 'react-router-dom';
+
+import BackButton from '../../../components/BackButton/BackButton';
 import Loading from "../../../components/Progress/Loading";
-import "./BookDetails.css";
+import contact from '../../../assets/review.avif';
 import { toast } from "react-hot-toast";
-import BackButton from "../../../components/BackButton/BackButton";
+import { useForm } from 'react-hook-form';
 
 export default function BookDetails() {
   const { id } = useParams();
@@ -133,7 +136,7 @@ export default function BookDetails() {
               <input
                 placeholder="title"
                 className="mx-auto focus:border-orange-600 outline-none  w-1/2 block my-2 border rounded p-1 border-teal-500"
-                {...register("title", { required: true })}
+                {...register('title', { required: true })}
               />
               {errors.title && (
                 <span className=" block mx-auto text-sm text-red-600">
@@ -160,22 +163,22 @@ export default function BookDetails() {
         {review ? (
           <h4 className=" font-serif text-sm mt-2 decoration-black pb-5">
             <div className="grid sm:grid-cols-2  lg:grid-cols-4 gap-4">
-              {reviews.map((review) => (
+              {review.map((rvw: any) => (
                 <div className="card shadow-xl ">
                   <div className="px-3 py-6">
-                    <p className="text-xl text-orange-600">{review.text}</p>
+                    <p className="text-xl text-orange-600">{rvw.text}</p>
                     <div className="flex items-center justify-between">
-                      {review.img && (
+                      {rvw.img && (
                         <div className="avatar mr-3">
                           <div className="w-16 rounded-full">
-                            <img src={review.img} alt="" />
+                            <img src={rvw.img} alt="" />
                           </div>
                         </div>
                       )}
                       <div className="mt-5">
-                        <h3 className="text-lg">{review.name}</h3>
-                        {review?.location && (
-                          <h3 className="text-sm my-3"> {review.location}</h3>
+                        <h3 className="text-lg">{rvw.name}</h3>
+                        {rvw?.location && (
+                          <h3 className="text-sm my-3"> {rvw.location}</h3>
                         )}
                       </div>
                     </div>
@@ -213,7 +216,7 @@ export default function BookDetails() {
             >
               <input
                 required
-                {...register("name")}
+                {...register('name')}
                 type="text"
                 name="name"
                 placeholder="Enter Your Full Name"
@@ -222,7 +225,7 @@ export default function BookDetails() {
               />
               <input
                 required
-                {...register("email")}
+                {...register('email')}
                 type="email"
                 name="email"
                 placeholder="Enter Your Email"
@@ -231,7 +234,7 @@ export default function BookDetails() {
               />
               <input
                 required
-                {...register("location")}
+                {...register('location')}
                 type="text"
                 name="location"
                 placeholder="Enter Your location"
@@ -239,7 +242,7 @@ export default function BookDetails() {
                 w-full border bg-gray-200"
               />
               <input
-                {...register("image", { required: "image is required" })}
+                {...register('image', { required: 'image is required' })}
                 type="file"
                 className="rounded  p-3 mx-auto 
                 w-full border bg-gray-200"

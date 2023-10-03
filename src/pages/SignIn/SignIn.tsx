@@ -1,39 +1,41 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useNavigate } from "react-router-dom";
+
 import { useForm } from "react-hook-form";
-import { useUserSignInMutation } from "../../redux/features/userSlice/userApi";
 import contact from "../../assets/signup-in.png";
-import Loading from "../../components/Progress/Loading";
-import { toast } from "react-hot-toast";
+
 import BackButton from "../../components/BackButton/BackButton";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { loginUser } from "../../redux/features/userSlice/userSlice";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import Loading from "../../components/Progress/Loading";
 
 export default function SignIn() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
+    reset,
   } = useForm();
+  const dispatch = useAppDispatch();
+
+  const { user, isLoading } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  const [userSignIn, options] = useUserSignInMutation();
-  const onSubmit = (data: object) => {
-    if (options.isLoading) {
-      return <Loading />;
-    }
-    if (!options.isError) {
-      userSignIn(data).then((res: any) => {
-        if (res.data.statusCode === 200) {
-          reset();
-          navigate("/");
-          console.log(res.data.data.accessToken);
-          localStorage.setItem("access-token", res.data.data.accessToken);
-          toast(res.data.message);
-        }
-      });
-    } else {
-      toast("Something went wrong");
-    }
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    dispatch(loginUser({ email: data.email, password: data.password }));
   };
+
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate("/");
+      toast.success("user sign in successfully");
+      reset();
+    }
+  }, [user.email, isLoading]);
   return (
     <div className="grid bg-slate-100 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 min-h-screen">
       <div className="mx-auto my-auto">
@@ -53,6 +55,7 @@ export default function SignIn() {
               placeholder="email"
               className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
               w-2/3 border bg-gray-200"
+              type="email"
               {...register("email", { required: true })}
             />
             {errors.email && (
@@ -65,6 +68,7 @@ export default function SignIn() {
               placeholder="password"
               className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
               w-2/3 border bg-gray-200"
+              type="password"
               {...register("password", { required: true })}
             />
             {errors.password && (
@@ -80,10 +84,14 @@ export default function SignIn() {
             {...register("profileImg", { required: true })}
           /> */}
 
-            <input
-              className="bg-[#059862] w-1/2 cursor-pointer rounded hover:bg-[#4CAF50] text-white p-1"
-              type="submit"
-            />
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <input
+                className="bg-[#059862] w-1/2 cursor-pointer rounded hover:bg-[#4CAF50] text-white p-1"
+                type="submit"
+              />
+            )}
           </form>
         </div>
       </div>

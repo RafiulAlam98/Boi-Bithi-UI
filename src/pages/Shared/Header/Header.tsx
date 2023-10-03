@@ -3,7 +3,10 @@
 import { Link } from "react-router-dom";
 import Reading from '../../../components/Reading/Reading';
 import WishLists from "../../../components/WishLists/WishLists";
-import { useAppSelector } from '../../../redux/hooks/hooks';
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks/hooks";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../lib/firebase";
+import { setUser } from "../../../redux/features/userSlice/userSlice";
 
 const allRoutes = [
   {
@@ -22,10 +25,14 @@ const allRoutes = [
 export default function Header() {
   const { books } = useAppSelector((state) => state.wishList);
   const { readingBooks } = useAppSelector((state) => state.readingList);
-  const user = localStorage.getItem("access-token");
-  console.log(user);
+
+  const dispatch = useAppDispatch();
+
+  const { user } = useAppSelector((state) => state.user);
   const handleSignOut = () => {
-    return localStorage.removeItem("access-token");
+    signOut(auth).then(() => {
+      dispatch(setUser(null));
+    });
   };
   return (
     <div className="max-w-[1100px] mx-auto ">
@@ -59,6 +66,23 @@ export default function Header() {
               <li>
                 <Link to="add-book">Add New Book</Link>
               </li>
+              {user.email === null ? (
+                <>
+                  <li className="list-none">
+                    <Link to="sign-up">Sign Up</Link>
+                  </li>
+                  <li className="list-none">
+                    <Link to="sign-in">Sign In</Link>
+                  </li>
+                </>
+              ) : (
+                <button
+                  onClick={() => handleSignOut()}
+                  className="bg-none text-red-600"
+                >
+                  Sign Out
+                </button>
+              )}
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost normal-case text-xl">
@@ -66,16 +90,15 @@ export default function Header() {
           </Link>
         </div>
         <div className="mx-auto hidden lg:flex">
-          {allRoutes.map(route => (
+          {allRoutes.map((route) => (
             <ul key={route.id} className="menu menu-horizontal px-1">
               <li>
                 <Link to={route.path}>{route.name}</Link>
               </li>
             </ul>
           ))}
-          {user === null ? (
+          {user.email === null ? (
             <>
-              {' '}
               <li className="list-none">
                 <Link to="sign-up">Sign Up</Link>
               </li>
@@ -121,7 +144,7 @@ export default function Header() {
             className="fa-solid fa-book-open-reader text-2xl border-none rounded p-4 badge
             text-red-600 bg-none"
           >
-            {' '}
+            {" "}
             <span className="text-sm text-teal-800 font-bold">
               {readingBooks.length}
             </span>

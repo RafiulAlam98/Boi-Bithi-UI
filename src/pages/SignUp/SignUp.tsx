@@ -1,30 +1,42 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import './SignUp.css';
+import "./SignUp.css";
 
-import { Link, useNavigate } from 'react-router-dom';
-
-import BackButton from '../../components/BackButton/BackButton';
-import Loading from '../../components/Progress/Loading';
-import contact from '../../assets/signup-in.png';
-import { toast } from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
-import { useUserSignUpMutation } from '../../redux/features/userSlice/userApi';
+import BackButton from "../../components/BackButton/BackButton";
+import { useEffect } from "react";
+import contact from "../../assets/signup-in.png";
+import { toast } from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { createUser } from "../../redux/features/userSlice/userSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Progress/Loading";
 
 export default function SignUp() {
-  const [userSignUp, options] = useUserSignUpMutation();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: object) => {
+  const dispatch = useAppDispatch();
+
+  const { user, isLoading } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+  const onSubmit = (data: any) => {
     console.log(data);
+    dispatch(createUser({ email: data.email, password: data.password }));
   };
 
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate("/");
+      toast.success("user sign up successfully");
+      reset();
+    }
+  }, [user.email, isLoading]);
   return (
     <div className="grid bg-slate-100 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 min-h-screen">
       <div className="mx-auto my-auto">
@@ -47,7 +59,8 @@ export default function SignUp() {
               placeholder="email"
               className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
               w-2/3 border bg-gray-200"
-              {...register('email', { required: true })}
+              type="email"
+              {...register("email", { required: true })}
             />
             {errors.email && (
               <span className="mx-2 text-sm text-center text-red-600">
@@ -59,7 +72,8 @@ export default function SignUp() {
               placeholder="password"
               className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
               w-2/3 border bg-gray-200"
-              {...register('password', { required: true })}
+              type="password"
+              {...register("password", { required: true })}
             />
             {errors.password && (
               <span className="mx-2 text-sm text-red-600">
@@ -67,13 +81,13 @@ export default function SignUp() {
               </span>
             )}
 
-            <input
+            {/* <input
               placeholder="phone no"
               className="rounded my-2 focus:border-orange-600 outline-none p-3 mx-auto 
               w-2/3 border bg-gray-200"
               {...register('phoneNo', { required: true })}
             />
-            {errors.phone && <span>Phone No is required</span>}
+            {errors.phone && <span>Phone No is required</span>} */}
 
             {/* <input
             placeholder=""
@@ -82,10 +96,14 @@ export default function SignUp() {
             {...register("profileImg", { required: true })}
           /> */}
 
-            <input
-              className="bg-[#059862] w-1/2 cursor-pointer rounded hover:bg-[#4CAF50] text-white p-1"
-              type="submit"
-            />
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <input
+                className="bg-[#059862] w-1/2 cursor-pointer rounded hover:bg-[#4CAF50] text-white p-1"
+                type="submit"
+              />
+            )}
           </form>
         </div>
       </div>

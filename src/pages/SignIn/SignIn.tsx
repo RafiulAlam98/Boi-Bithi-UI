@@ -46,7 +46,7 @@ export default function SignIn() {
           alt="review"
         />
       </div>
-      <div className="">
+      <div className="lg:mt-36">
         <h1 className="text-4xl text-center my-7 text-orange-600 ">Sign IN</h1>
 
         <div className="text-center mb-16 place-content-center">

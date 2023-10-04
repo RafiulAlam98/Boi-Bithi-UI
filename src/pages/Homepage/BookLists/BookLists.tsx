@@ -6,10 +6,10 @@ import Loading from "../../../components/Progress/Loading";
 import { useAppDispatch } from "../../../redux/hooks/hooks";
 import { addToWishList } from "../../../redux/features/wishList/wishListSlice";
 import { addToReadingList } from "../../../redux/features/readingSlice/readingSlice";
-import SearchingInput from "../../../components/SearchingInput/SearchingInput";
+
 import { useState } from "react";
 export default function BookLists() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
   const { data, isLoading } = useGetBookBySearchQuery(searchTerm);
 
   const dispatch = useAppDispatch();
@@ -22,7 +22,6 @@ export default function BookLists() {
 
   return (
     <>
-      <SearchingInput setSearchTerm={setSearchTerm} />
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {allBooks
           .map((allBook: any) => (

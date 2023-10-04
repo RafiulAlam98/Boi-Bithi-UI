@@ -1,0 +1,19 @@
+.search-input-container {
+    position: relative;
+}
+
+.search-input {
+
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-input::placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.search-input:focus::placeholder {
+    opacity: 1;
+}

@@ -26,12 +26,13 @@ const routes = createBrowserRouter([
         path: "/edit/:id",
         element: <EditBook />,
       },
+      {
+        path: "/all-books",
+        element: <AllBooks />,
+      },
     ],
   },
-  {
-    path: "/all-books",
-    element: <AllBooks />,
-  },
+
   {
     path: "/sign-in",
     element: <SignIn />,

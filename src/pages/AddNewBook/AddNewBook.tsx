@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import BackButton from '../../components/BackButton/BackButton';
 import contact from '../../assets/add-books.png';
 import { toast } from 'react-hot-toast';
 import { useAddNewBookMutation } from '../../redux/features/bookSlice/bookApi';
@@ -30,7 +29,6 @@ export default function AddNewBook() {
   return (
     <div className="grid bg-slate-100 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 min-h-screen">
       <div className="mx-auto my-auto">
-        <BackButton />
         <img
           src={contact}
           className="max-w-lg rounded-lg  lg:ml:10 mt-5"

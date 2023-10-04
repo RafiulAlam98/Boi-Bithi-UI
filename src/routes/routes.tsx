@@ -30,6 +30,14 @@ const routes = createBrowserRouter([
         path: "/all-books",
         element: <AllBooks />,
       },
+      {
+        path: "add-book",
+        element: (
+          <PrivateRoutes>
+            <AddNewBook />
+          </PrivateRoutes>
+        ),
+      },
     ],
   },
 
@@ -41,14 +49,7 @@ const routes = createBrowserRouter([
     path: "/sign-up",
     element: <SignUp />,
   },
-  {
-    path: "add-book",
-    element: (
-      <PrivateRoutes>
-        <AddNewBook />
-      </PrivateRoutes>
-    ),
-  },
+
   {
     path: "*",
     element: <NotFound />,
